@@ -24,3 +24,23 @@ forge build
 ```bash
 forge test
 ```
+
+## Deployment (Foundry script)
+
+Set `PRIVATE_KEY` and the RPC URL for your target network. Copy `.env.example` to `.env` and fill in values (never commit `.env`).
+
+**Sepolia (testnet):**
+
+```bash
+source .env
+forge script script/DeployCharicallDonation.s.sol:DeployCharicallDonation --rpc-url sepolia --broadcast --verify
+```
+
+**Ethereum mainnet:**
+
+```bash
+source .env
+forge script script/DeployCharicallDonation.s.sol:DeployCharicallDonation --rpc-url mainnet --broadcast --verify
+```
+
+You can pass `--rpc-url $SEPOLIA_RPC_URL` (or any HTTPS URL) instead of the named endpoints. Omit `--verify` if you do not use contract verification.
