@@ -57,6 +57,34 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+## Paystack Integration
+
+Paystack is integrated as the primary provider for donation payment processing.
+
+### Endpoints
+
+- `POST /payments/paystack/initialize` - initializes a Paystack transaction and returns checkout authorization data.
+- `GET /payments/paystack/verify/:reference` - verifies a completed Paystack transaction reference.
+
+### Required Environment Variables
+
+- `PAYSTACK_SECRET_KEY`
+- `PAYSTACK_CALLBACK_URL` (optional; defaults are documented in `.env.example`)
+
+## Docker
+
+Build and run the backend with PostgreSQL from the repository root:
+
+```bash
+cd ..
+docker compose up --build
+```
+
+The compose stack starts:
+
+- `backend` on `http://localhost:3000/api`
+- `db` (PostgreSQL 16) on `localhost:5432`
+
 ## Deployment
 
 When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.

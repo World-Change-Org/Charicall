@@ -480,7 +480,8 @@ All environment variables are defined in `.env`. Use `.env.example` as your temp
 | `SMTP_PASS` | No | — | SMTP authentication password |
 | `SMTP_FROM` | No | — | "From" address for outgoing emails |
 | `STRIPE_SECRET_KEY` | No | — | Stripe secret key for payment processing |
-| `PAYSTACK_SECRET_KEY` | No | — | Paystack secret key (alternative payment provider) |
+| `PAYSTACK_SECRET_KEY` | No | — | Paystack secret key used by backend payment initialization/verification |
+| `PAYSTACK_CALLBACK_URL` | No | `http://localhost:3000/api/payments/paystack/verify` | Callback URL sent to Paystack during transaction initialization |
 | `FRONTEND_URL` | No | `http://localhost:3001` | Allowed CORS origin for the frontend |
 
 > ⚠️ **Never commit your `.env` file to version control.** It is listed in `.gitignore`.
@@ -555,40 +556,47 @@ The API will be available at:
 
 ## 🐳 Running with Docker
 
-> Docker support coming soon. The following is the planned `docker-compose.yml` setup.
+The backend and PostgreSQL database are fully containerised with `docker-compose.yml`.
 
-```yaml
-version: '3.8'
-services:
-  api:
-    build: ./Backend
-    ports:
-      - "3000:3000"
-    environment:
-      - NODE_ENV=production
-      - DB_HOST=db
-    depends_on:
-      - db
+### Prerequisites
 
-  db:
-    image: postgres:16-alpine
-    environment:
-      POSTGRES_DB: charicall
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    volumes:
-      - pg_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
+- Docker Desktop (or Docker Engine + Compose)
 
-volumes:
-  pg_data:
-```
-
-Run with:
+### Step 1 — Configure Environment Variables
 
 ```bash
+cd Backend
+cp .env.example .env
+```
+
+`docker-compose.yml` loads `Backend/.env` and overrides `DB_HOST` to `db` so the backend can connect to the Postgres service container.
+
+### Step 2 — Build and Start Services
+
+```bash
+cd ..
 docker compose up --build
+```
+
+### Services
+
+| Service | URL/Port | Notes |
+|---|---|---|
+| Backend API | `http://localhost:3000/api` | NestJS production build running in container |
+| Swagger Docs | `http://localhost:3000/api/docs` | OpenAPI docs |
+| PostgreSQL | `localhost:5432` | Database persisted to Docker volume `pg_data` |
+
+### Useful Commands
+
+```bash
+# Start in detached mode
+docker compose up -d --build
+
+# Stop and remove containers
+docker compose down
+
+# Stop and remove containers + database volume
+docker compose down -v
 ```
 
 ---
