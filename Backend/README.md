@@ -57,6 +57,20 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+## Paystack Integration
+
+Paystack is integrated as the primary provider for donation payment processing.
+
+### Endpoints
+
+- `POST /payments/paystack/initialize` - initializes a Paystack transaction and returns checkout authorization data.
+- `GET /payments/paystack/verify/:reference` - verifies a completed Paystack transaction reference.
+
+### Required Environment Variables
+
+- `PAYSTACK_SECRET_KEY`
+- `PAYSTACK_CALLBACK_URL` (optional; defaults are documented in `.env.example`)
+
 ## Docker
 
 Build and run the backend with PostgreSQL from the repository root:

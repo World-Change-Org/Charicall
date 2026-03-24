@@ -480,7 +480,8 @@ All environment variables are defined in `.env`. Use `.env.example` as your temp
 | `SMTP_PASS` | No | — | SMTP authentication password |
 | `SMTP_FROM` | No | — | "From" address for outgoing emails |
 | `STRIPE_SECRET_KEY` | No | — | Stripe secret key for payment processing |
-| `PAYSTACK_SECRET_KEY` | No | — | Paystack secret key (alternative payment provider) |
+| `PAYSTACK_SECRET_KEY` | No | — | Paystack secret key used by backend payment initialization/verification |
+| `PAYSTACK_CALLBACK_URL` | No | `http://localhost:3000/api/payments/paystack/verify` | Callback URL sent to Paystack during transaction initialization |
 | `FRONTEND_URL` | No | `http://localhost:3001` | Allowed CORS origin for the frontend |
 
 > ⚠️ **Never commit your `.env` file to version control.** It is listed in `.gitignore`.
