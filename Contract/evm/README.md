@@ -5,6 +5,7 @@ Solidity contracts for on-chain donation tracking, built with [Foundry](https://
 ## Contracts
 
 - **`CharicallDonation`** — Per-cause targets and raised totals in wei. Emits **`CauseClosed`** the first time a cause’s cumulative donations meet or exceed its target.
+- **`verifiedOrganisations`** — Owner-managed on-chain verification badges for organisation wallets.
 
 ## Prerequisites
 
