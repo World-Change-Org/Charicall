@@ -36,6 +36,20 @@ source .env
 forge script script/DeployCharicallDonation.s.sol:DeployCharicallDonation --rpc-url sepolia --broadcast --verify
 ```
 
+**Base Sepolia (testnet):**
+
+```bash
+source .env
+forge script script/DeployCharicallDonation.s.sol:DeployCharicallDonation --rpc-url base_sepolia --broadcast --verify
+```
+
+**Polygon Mumbai (testnet):**
+
+```bash
+source .env
+forge script script/DeployCharicallDonation.s.sol:DeployCharicallDonation --rpc-url polygon_mumbai --broadcast --verify
+```
+
 **Ethereum mainnet:**
 
 ```bash
@@ -43,4 +57,4 @@ source .env
 forge script script/DeployCharicallDonation.s.sol:DeployCharicallDonation --rpc-url mainnet --broadcast --verify
 ```
 
-You can pass `--rpc-url $SEPOLIA_RPC_URL` (or any HTTPS URL) instead of the named endpoints. Omit `--verify` if you do not use contract verification.
+You can pass `--rpc-url $SEPOLIA_RPC_URL` (or any HTTPS URL) instead of the named endpoints. Omit `--verify` if you do not use contract verification. The named endpoints currently cover Ethereum Sepolia, Base Sepolia, Polygon Mumbai, and Ethereum mainnet.
