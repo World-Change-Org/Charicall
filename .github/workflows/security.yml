@@ -12,9 +12,9 @@ jobs:
         with:
           fetch-depth: 0 # fetch all history so that GitGuardian can scan it
       - name: GitGuardian scan
-        uses: GitGuardian/ggshield-action@v1.31.0
+        uses: GitGuardian/ggshield-action@v1.35.0
         env:
           GITHUB_PUSH_BEFORE_SHA: ${{ github.event.before }}
           GITHUB_PUSH_BASE_SHA: ${{ github.event.base }}
-          GITHUB_PULL_RFC_SHA: ${{ github.event.pull_request.head.sha }}
+          GITHUB_PULL_BASE_SHA: ${{ github.event.pull_request.head.sha }}
           GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
