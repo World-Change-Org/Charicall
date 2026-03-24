@@ -14,6 +14,7 @@ contract CharicallDonation {
     address public owner;
 
     mapping(uint256 causeId => Cause) public causes;
+    mapping(address organisation => bool) public verifiedOrganisations;
 
     /// @notice Emitted for every donation received for a cause.
     event Donation(uint256 indexed causeId, address indexed donor, uint256 amount, uint256 newTotalRaised);
@@ -24,11 +25,15 @@ contract CharicallDonation {
     /// @param targetAmount The funding goal for the cause.
     event CauseClosed(uint256 indexed causeId, uint256 totalRaised, uint256 targetAmount);
 
+    /// @notice Emitted when an organisation's verification badge is updated on-chain.
+    event OrganisationVerificationUpdated(address indexed organisation, bool isVerified);
+
     error NotOwner();
     error ZeroTarget();
     error CauseAlreadyExists();
     error UnknownCause();
     error ZeroDonation();
+    error ZeroOrganisation();
 
     modifier onlyOwner() {
         if (msg.sender != owner) revert NotOwner();
@@ -65,5 +70,12 @@ contract CharicallDonation {
     /// @notice Transfers contract balance to the owner (e.g. for off-chain disbursement workflows).
     function withdraw(uint256 amount, address payable to) external onlyOwner {
         to.transfer(amount);
+    }
+
+    /// @notice Updates whether an organisation wallet should display a verified on-chain badge.
+    function setOrganisationVerification(address organisation, bool isVerified) external onlyOwner {
+        if (organisation == address(0)) revert ZeroOrganisation();
+        verifiedOrganisations[organisation] = isVerified;
+        emit OrganisationVerificationUpdated(organisation, isVerified);
     }
 }

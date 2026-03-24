@@ -8,12 +8,14 @@ contract CharicallDonationTest is Test {
     CharicallDonation internal donation;
     address internal owner = address(0xA11CE);
     address internal donor = address(0xD00d);
+    address internal organisation = address(0xBEEF);
 
     uint256 internal constant CAUSE_ID = 1;
     uint256 internal constant TARGET = 1 ether;
 
     event Donation(uint256 indexed causeId, address indexed donor, uint256 amount, uint256 newTotalRaised);
     event CauseClosed(uint256 indexed causeId, uint256 totalRaised, uint256 targetAmount);
+    event OrganisationVerificationUpdated(address indexed organisation, bool isVerified);
 
     function setUp() public {
         vm.prank(owner);
@@ -71,5 +73,38 @@ contract CharicallDonationTest is Test {
 
         vm.prank(donor);
         donation.donate{value: TARGET / 2}(CAUSE_ID);
+    }
+
+    function test_ownerCanSetOrganisationVerification() public {
+        vm.expectEmit(true, true, true, true);
+        emit OrganisationVerificationUpdated(organisation, true);
+
+        vm.prank(owner);
+        donation.setOrganisationVerification(organisation, true);
+
+        assertTrue(donation.verifiedOrganisations(organisation));
+    }
+
+    function test_ownerCanRevokeOrganisationVerification() public {
+        vm.startPrank(owner);
+        donation.setOrganisationVerification(organisation, true);
+        donation.setOrganisationVerification(organisation, false);
+        vm.stopPrank();
+
+        assertFalse(donation.verifiedOrganisations(organisation));
+    }
+
+    function test_revertsWhenNonOwnerSetsOrganisationVerification() public {
+        vm.expectRevert(CharicallDonation.NotOwner.selector);
+
+        vm.prank(donor);
+        donation.setOrganisationVerification(organisation, true);
+    }
+
+    function test_revertsWhenOrganisationAddressIsZero() public {
+        vm.expectRevert(CharicallDonation.ZeroOrganisation.selector);
+
+        vm.prank(owner);
+        donation.setOrganisationVerification(address(0), true);
     }
 }
