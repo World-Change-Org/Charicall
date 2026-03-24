@@ -12,7 +12,9 @@ contract CharicallDonationTest is Test {
     uint256 internal constant CAUSE_ID = 1;
     uint256 internal constant TARGET = 1 ether;
 
-    event Donation(uint256 indexed causeId, address indexed donor, uint256 amount, uint256 newTotalRaised);
+    event Donation(
+        uint256 indexed causeId, address indexed donor, uint256 amount, uint256 newTotalRaised, bool isAnonymous
+    );
     event CauseClosed(uint256 indexed causeId, uint256 totalRaised, uint256 targetAmount);
 
     function setUp() public {
@@ -20,6 +22,37 @@ contract CharicallDonationTest is Test {
         donation = new CharicallDonation();
         vm.prank(owner);
         donation.createCause(CAUSE_ID, TARGET);
+    }
+
+    function test_storesDonorAddress_forPublicDonations() public {
+        vm.deal(donor, 0.25 ether);
+
+        vm.prank(donor);
+        donation.donate{value: 0.25 ether}(CAUSE_ID);
+
+        assertEq(donation.donationCount(CAUSE_ID), 1);
+
+        (address storedDonor, uint256 amount, bool isAnonymous) = donation.getDonation(CAUSE_ID, 0);
+        assertEq(storedDonor, donor);
+        assertEq(amount, 0.25 ether);
+        assertFalse(isAnonymous);
+    }
+
+    function test_zeroesOutDonorAddress_forAnonymousDonations() public {
+        vm.deal(donor, 0.25 ether);
+
+        vm.expectEmit(true, true, true, true);
+        emit Donation(CAUSE_ID, address(0), 0.25 ether, 0.25 ether, true);
+
+        vm.prank(donor);
+        donation.donateAnonymous{value: 0.25 ether}(CAUSE_ID);
+
+        assertEq(donation.donationCount(CAUSE_ID), 1);
+
+        (address storedDonor, uint256 amount, bool isAnonymous) = donation.getDonation(CAUSE_ID, 0);
+        assertEq(storedDonor, address(0));
+        assertEq(amount, 0.25 ether);
+        assertTrue(isAnonymous);
     }
 
     function test_emitsCauseClosed_whenTotalMeetsTarget() public {
