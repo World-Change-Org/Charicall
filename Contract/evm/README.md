@@ -27,13 +27,19 @@ forge test
 
 ## Deployment (Foundry script)
 
-Set `PRIVATE_KEY` and the RPC URL for your target network. Copy `.env.example` to `.env` and fill in values (never commit `.env`).
+Set `PRIVATE_KEY`, `SEPOLIA_RPC_URL`, and `ETHERSCAN_API_KEY`. Copy `.env.example` to `.env` and fill in values (never commit `.env`).
 
 **Sepolia (testnet):**
 
 ```bash
 source .env
-forge script script/DeployCharicallDonation.s.sol:DeployCharicallDonation --rpc-url sepolia --broadcast --verify
+forge script script/DeployCharicallDonation.s.sol:DeployCharicallDonation --rpc-url sepolia --broadcast --verify -vvvv
+```
+
+PowerShell alternative:
+
+```powershell
+./script/deploy-sepolia.ps1
 ```
 
 **Ethereum mainnet:**
@@ -44,3 +50,15 @@ forge script script/DeployCharicallDonation.s.sol:DeployCharicallDonation --rpc-
 ```
 
 You can pass `--rpc-url $SEPOLIA_RPC_URL` (or any HTTPS URL) instead of the named endpoints. Omit `--verify` if you do not use contract verification.
+
+## Sepolia Release Checklist
+
+1. Run tests:
+   - `forge test`
+2. Deploy and verify:
+   - `forge script script/DeployCharicallDonation.s.sol:DeployCharicallDonation --rpc-url sepolia --broadcast --verify -vvvv`
+3. Record deployment output in `deployments/sepolia.md`:
+   - Deployer address
+   - Contract address
+   - Transaction hash
+   - Etherscan verification URL
