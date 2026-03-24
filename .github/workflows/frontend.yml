@@ -9,9 +9,11 @@ on:
     branches: [ main ]
     paths:
       - 'Frontend/**'
+  workflow_dispatch:
 
 jobs:
-  build:
+  frontend-ci:
+    name: Frontend Lint & Build
     runs-on: ubuntu-latest
 
     defaults:
