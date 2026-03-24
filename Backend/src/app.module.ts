@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { CausesModule } from './causes/causes.module';
 
 @Module({
   imports: [
@@ -28,6 +29,8 @@ import { AppService } from './app.service';
         logging: config.get<string>('NODE_ENV') === 'development',
       }),
     }),
+
+    CausesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
