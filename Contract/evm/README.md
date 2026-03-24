@@ -5,6 +5,7 @@ Solidity contracts for on-chain donation tracking, built with [Foundry](https://
 ## Contracts
 
 - **`CharicallDonation`** — Per-cause targets and raised totals in wei. Emits **`CauseClosed`** the first time a cause’s cumulative donations meet or exceed its target.
+- Anonymous donations persist a `DonationRecord` with `donor = address(0)` so on-chain storage does not reveal the donor wallet.
 
 ## Prerequisites
 
@@ -24,6 +25,8 @@ forge build
 ```bash
 forge test
 ```
+
+Coverage in this package includes anonymous donation storage so regressions around donor redaction are caught in CI.
 
 ## Deployment (Foundry script)
 
