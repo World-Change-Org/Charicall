@@ -9,9 +9,11 @@ on:
     branches: [ main ]
     paths:
       - 'Contract/**'
+  workflow_dispatch:
 
 jobs:
-  check:
+  contract-ci:
+    name: Contract Check & Format
     runs-on: ubuntu-latest
 
     defaults:

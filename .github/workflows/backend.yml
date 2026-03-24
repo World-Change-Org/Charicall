@@ -9,9 +9,11 @@ on:
     branches: [ main ]
     paths:
       - 'Backend/**'
+  workflow_dispatch:
 
 jobs:
-  build:
+  backend-ci:
+    name: Backend Build & Lint
     runs-on: ubuntu-latest
 
     defaults:
