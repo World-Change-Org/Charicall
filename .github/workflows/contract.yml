@@ -1,0 +1,38 @@
+name: Contract CI
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'Contract/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'Contract/**'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./Contract/Charicall
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+
+      - name: Rust Cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: Contract/Charicall
+
+      - name: Cargo Check
+        run: cargo check
+
+      - name: Cargo Format Check
+        run: cargo fmt --check
