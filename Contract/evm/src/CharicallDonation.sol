@@ -5,6 +5,9 @@ pragma solidity ^0.8.20;
 /// @notice On-chain donation ledger for Charicall causes. Totals per cause are tracked in wei.
 /// @dev `CauseClosed` fires exactly once when a cause first reaches or exceeds its funding target.
 contract CharicallDonation {
+    /// @notice Semantic version for the deployed donation contract interface.
+    string public constant DONATION_VERSION = "1.0.0";
+
     struct Cause {
         uint256 targetAmount;
         uint256 raisedAmount;

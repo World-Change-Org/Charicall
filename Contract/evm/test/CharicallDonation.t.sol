@@ -22,6 +22,10 @@ contract CharicallDonationTest is Test {
         donation.createCause(CAUSE_ID, TARGET);
     }
 
+    function test_exposesDonationVersion() public {
+        assertEq(donation.DONATION_VERSION(), "1.0.0");
+    }
+
     function test_emitsCauseClosed_whenTotalMeetsTarget() public {
         vm.deal(donor, TARGET);
 
