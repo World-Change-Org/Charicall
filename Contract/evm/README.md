@@ -5,6 +5,7 @@ Solidity contracts for on-chain donation tracking, built with [Foundry](https://
 ## Contracts
 
 - **`CharicallDonation`** — Per-cause targets and raised totals in wei. Emits **`CauseClosed`** the first time a cause’s cumulative donations meet or exceed its target.
+- **`DONATION_VERSION`** — Public semantic version constant for tracking contract interface upgrades across deployments.
 
 ## Prerequisites
 
