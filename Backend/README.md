@@ -57,6 +57,20 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+## Docker
+
+Build and run the backend with PostgreSQL from the repository root:
+
+```bash
+cd ..
+docker compose up --build
+```
+
+The compose stack starts:
+
+- `backend` on `http://localhost:3000/api`
+- `db` (PostgreSQL 16) on `localhost:5432`
+
 ## Deployment
 
 When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
